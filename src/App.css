@@ -1,0 +1,23 @@
+.form {
+  background: rgba(19, 35, 47, 0.9);
+  padding: 40px;
+  max-width: 600px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 4px rgb(19 35 47 / 30%);
+}
+
+a {
+  text-decoration:none;
+  color:#1ab188;
+  transition:.5s ease;
+}
+
+a:hover {
+  color:darken(#1ab188,5%);
+}
+
+p, span{
+  color: red;
+  font-style: italic;
+}
