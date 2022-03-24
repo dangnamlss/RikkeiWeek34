@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../Login/Login.css"
 import { Navigate, useNavigate } from "react-router-dom";
 import Loading from "../LoadingScreen/Loading";
 
@@ -172,7 +173,7 @@ export default function Register() {
                         <p>{formErrors.username}</p>
                         <div className="field-wrap">
                             <input name='password' id="password" placeholder="Password" type={passwordShown ? "text" : "password"}  />
-                            <i onClick={togglePasswordVisiblity}>{eye}</i>
+                            <i className="toggle-pass-eye" onClick={togglePasswordVisiblity}>{eye}</i>
                             
                         </div>
                         <p>{formErrors.password}</p>

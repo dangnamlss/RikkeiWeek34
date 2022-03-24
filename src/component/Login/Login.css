@@ -1,0 +1,14 @@
+.toggle-pass-eye {
+    position: absolute;
+    top: 20%;
+    right: 2%;
+  }
+  .toggle-pass-eye:hover {
+    color: #00fcb6;
+    cursor: pointer;
+}
+
+p, span{
+    color: red;
+    font-style: italic;
+}

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./Login.css"
 import '../../App.css'
 import { useNavigate } from "react-router-dom";
 import Loading from "../LoadingScreen/Loading";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+
 const eye = <FontAwesomeIcon icon={faEye} />;
 
 
@@ -46,28 +49,30 @@ export default function Login() {
             formErrors.password = ''
         }
     
-        console.log(formErrors)
-        console.log(formErrors.username)
         var count = 0
         if(formErrors.username != '' || formErrors.password != '') {
             count ++
         }
         if(count == 0) {
             setScreenLoading(true)
-            fetch(loginApi, {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(x),
-            })
+            axios.post(loginApi,
+                 x,
+                 {
+                     headers: {
+                         "Content-type": "application/json; charset=UTF-8",
+                     }
+                 },
+            )
             .then(response => {
                 if(response.status == 200){
+                    console.log(response.data)
                     //Remember me
                     var checkbox_status = data.get('rememberMe')
                     if (checkbox_status != null) {
                         localStorage.setItem('username', data.get('username'))
                         localStorage.setItem('password', data.get('password'))
+                        localStorage.setItem('resData', JSON.stringify(response.data.data))
+                        console.log(response.data.data)
                     } else if(checkbox_status == null) {
                         localStorage.removeItem('username')
                     }
@@ -121,7 +126,7 @@ export default function Login() {
                         
                         <div className="field-wrap">
                             <input name='password' id="password" placeholder="Password" type={passwordShown ? "text" : "password"} />
-                            <i onClick={togglePasswordVisiblity}>{eye}</i>
+                            <i className="toggle-pass-eye" onClick={togglePasswordVisiblity}>{eye}</i>
                         </div>
                         {formErrors.password && <span  >{formErrors.password}</span> }
                         

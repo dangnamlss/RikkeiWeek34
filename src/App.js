@@ -3,21 +3,26 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Header from './component/Header/Header';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from './component/Home';
-import { Navigate } from 'react-router-dom';
-import Login from './component/Login/Login';
-import { Nav } from 'react-bootstrap';
+import Quiz from './component/Quiz/Quiz';
 
 function App() {
   return (
     <div className="App">
-      <div className='form'>
         <BrowserRouter>
           <Routes>
-            <Route path='/home' element={<Home />}></Route>
-            <Route path='*' element={<Header />}></Route>
+            <Route path='/home' element={
+              <div className='form'><Home /></div>
+            }>
+
+            </Route>
+            <Route path='*' element={
+              <div className='form'>
+                 <Header className='form' />
+              </div>
+            }></Route>
+            <Route path='/quiz' element={<Quiz />}></Route>
           </Routes>
         </BrowserRouter>
-      </div>
     </div>
   );
 

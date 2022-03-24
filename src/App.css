@@ -17,7 +17,3 @@ a:hover {
   color:darken(#1ab188,5%);
 }
 
-p, span{
-  color: red;
-  font-style: italic;
-}
