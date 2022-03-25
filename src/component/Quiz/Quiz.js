@@ -6,7 +6,7 @@ import axios from 'axios';
 import Clock from '../Clock/Clock';
 import Question from '../Question/Question';
 import Loading from '../LoadingScreen/Loading'
-
+import SubPopUp from '../SubPopUp/SubPopUp';
 
 export default function Quiz() {
     const getGameAPI = 'https://english-backend-v2.herokuapp.com/games/getGame'
@@ -16,11 +16,12 @@ export default function Quiz() {
     const [screenLoading, setScreenLoading] = useState(false)
     const [listQuestion, setListQuestion] = useState([])
     const [listAnswer, setListAnswer] = useState([])
-    const [totalTestTime, setTotalTestTime] = useState()
+    // const [totalTestTime, setTotalTestTime] = useState()
     const[completedQuiz, setCompletedQuiz] = useState(0)
     const [numberOfQuiz, setNumberOfQuiz] = useState(0)
     const [answerGrid, setAnswerGrid] = useState([])
-    
+    const [isOpen, setIsOpen] = useState(false)
+    const [finalScore, setFinalScore] = useState(0)
 
     //BACK HOME
     const navigate = useNavigate()
@@ -51,6 +52,8 @@ export default function Quiz() {
           }
         )
           .then(res => {
+            localStorage.setItem('time', res.data.totalTime)
+
             quizListLength = res.data.data.length
             setNumberOfQuiz(quizListLength)
             var arr = []
@@ -59,7 +62,7 @@ export default function Quiz() {
             }
             setAnswerGrid(arr)
 
-            setTotalTestTime(res.data.totalTime)
+            // setTotalTestTime(res.data.totalTime)
 
             setListQuestion(res.data.data)
             
@@ -71,29 +74,66 @@ export default function Quiz() {
     },[])
 
 
-    function test() {
-        console.log(totalTestTime)
+    //Pop up
+    function togglePopup() {
+        setIsOpen(true)
     }
 
-    
+    function closePopup() {
+        setIsOpen(false)
+    }
+
+    //Submit
+    function finalSubmit() {
+        axios.post(finishGameAPI,
+            {
+                examId: 24,
+                listAnswer: listAnswer,
+                totalTime: 30,
+                userId: _id
+            },
+            {
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+            },
+          }
+        )
+          .then(res => {
+            console.log(listAnswer)
+            console.log(res.data)
+            setFinalScore(res.data.score)
+            localStorage.setItem('score', finalScore)
+            console.log(finalScore)
+            navigate('/result')
+          })
+          .catch(error => {
+              console.log("Error")
+          })
+    }
     return(
         <div>
             <div style={{display: screenLoading? 'block':'none'}}>
                 <Loading />
             </div>
 
+            <div style={{display: isOpen? 'block':'none'}}>
+                <SubPopUp closePopup={closePopup} finalSubmit={finalSubmit} />
+            </div>
             <div style={{background: screenLoading? 'white' : 'black', height: '100%', display: screenLoading? 'none':'block'}}>
                 <div className='nav-bar' >
                     <div className='nav-bar-items'>
                         <div id='id-text'><p>Your ID: {_id}</p></div>
                         <button onClick={backHome} className='back-btn'><p>Back</p></button>
                     </div>
+                    
                 </div>
-                <div className='container'>
+                
+              
+                <div className='container test' >
                     <div className='row wrapper'>
                         <div className = 'col-lg-3 form-controler'>
                             <div style={{display: screenLoading? 'none':'block'}}>
-                                <Clock startTime= {totalTestTime} />
+                                <Clock />
                             </div>
                             {/* END OF CLOCK */}
 
@@ -105,7 +145,11 @@ export default function Quiz() {
                             <div className='quiz-grid container'>
                                 {answerGrid.map(function(item) {
                                     var linkId = '#ques-'
-                                    linkId += item.id-1
+                                    if(item.id == 1) {
+                                        linkId = '#ques-1'
+                                    } else {
+                                        linkId += item.id
+                                    }
                                     return <div className='quiz-item' id={item.id} key={item.id} style={item.isAnswer ? {background: 'black'} : {background: 'white'}}>
                                             <a href={linkId}  style={item.isAnswer ? {color:'white'} : {color: 'black'}}>
                                                 {item.id}
@@ -120,7 +164,7 @@ export default function Quiz() {
                             <br/>
                             <br/>
                             
-                            <button className="button-82-pushable sub-btn" onClick={test} style={{display: screenLoading? 'none':'block'}}>
+                            <button onClick={togglePopup} className="button-82-pushable sub-btn" style={{display: screenLoading? 'none':'block'}}>
                                 <span className="button-82-shadow"></span>
                                 <span className="button-82-edge"></span>
                                 <span className="button-82-front text">
@@ -133,7 +177,6 @@ export default function Quiz() {
                         <div className = 'col-lg-9 quiz-field'>
                             <br/>
                             <br/>
-                            <br/>
 
                             <div>
                                 {listQuestion.map((question) => {
@@ -141,7 +184,7 @@ export default function Quiz() {
                                     var questionId = question.id
                                     
                                     defaultClass += questionId
-                                    console.log(defaultClass)
+                                    
                                     return <div id={defaultClass}>
                                         <Question
                                                     id={question.id}

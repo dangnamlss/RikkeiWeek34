@@ -4,7 +4,7 @@ export default function Question (props) {
     var questionString= JSON.stringify(props.questionContent) 
     
     var answer = questionString.split('|')
- 
+    JSON.parse(answer)
     const {answerGridBtn, setAnswerGridBtn} = props
     const {listAnswer, setListAnswer} = props
     const {completedQuiz, setCompletedQuiz} = props
@@ -14,7 +14,6 @@ export default function Question (props) {
         var target = e.target
         console.log(props.listAnswer)
         const answerId = props.listAnswer.findIndex(arr => {return arr.id == target.name})
-        console.log(answerId)
 
         if(answerId < 0) {
             setCompletedQuiz(completedQuiz + 1)
@@ -37,6 +36,8 @@ export default function Question (props) {
             }
             setListAnswer(newListAnswer)
         }
+        console.log(listAnswer)
+        console.log(answerGridBtn)
     }
 
     return (
@@ -47,28 +48,28 @@ export default function Question (props) {
             <div className='row'>
                 <div className='col-lg-6'>
                     <label className="rad-label">
-                        <input type="radio" className="rad-input" name={props.id} onChange={handleChange}/>
+                        <input type="radio" className="rad-input" name={props.id} onChange={handleChange} value={answer[0]}/>
                         <div className="rad-design"></div>
                         <div className="rad-text">A. {answer[0]}</div>
                     </label>
                 </div>
                 <div className='col-lg-6'>
                     <label className="rad-label">
-                        <input type="radio" className="rad-input" name={props.id} onChange={handleChange}/>
+                        <input type="radio" className="rad-input" name={props.id} onChange={handleChange} value={answer[1]}/>
                         <div className="rad-design"></div>
                         <div className="rad-text">B. {answer[1]}</div>
                     </label>
                 </div>
                 <div className='col-lg-6'>
                     <label className="rad-label">
-                        <input type="radio" className="rad-input" name={props.id} onChange={handleChange}/>
+                        <input type="radio" className="rad-input" name={props.id} onChange={handleChange} value={answer[2]}/>
                         <div className="rad-design"></div>
                         <div className="rad-text">C. {answer[2]}</div>
                     </label>
                 </div>
                 <div className='col-lg-6'>
                     <label className="rad-label">
-                        <input type="radio" className="rad-input" name={props.id} onChange={handleChange}/>
+                        <input type="radio" className="rad-input" name={props.id} onChange={handleChange} value={answer[3]}/>
                         <div className="rad-design"></div>
                         <div className="rad-text">D. {answer[3]}</div>
                     </label>

@@ -1,4 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Hubballi&display=swap');
+.test {
+  display: block;
+  width: 100%;
+  position: static;
+}
 .wrapper {
+
     display: flex;
     background: white;
     height: 100%;
@@ -14,8 +21,8 @@
 }
 
 .nav-bar {
-  z-index: 100;
   position: fixed;
+  z-index: 100;
   background: white;
   width: 100%;
   height: 40px;

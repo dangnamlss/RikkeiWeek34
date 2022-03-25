@@ -3,11 +3,12 @@ import '../Quiz/Quiz.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { FiClock } from "react-icons/fi"
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Clock(props) {
-    var startMinute = props.startTime
+export default function Clock() {
+    var startMinute = parseInt(localStorage.getItem('time')) 
     //CLOCK
-
+    const navigate = useNavigate()
     const [minute, setMinute] = useState(startMinute)
     const [second, setSecond] = useState(0)
     var timer
@@ -21,6 +22,7 @@ export default function Clock(props) {
             if(minute === 0 && second === 0) {
                 setMinute(0)
                 setSecond(0)
+                navigate('/result')
             }
         }, 1000)
         return () => clearInterval(timer)
@@ -29,12 +31,12 @@ export default function Clock(props) {
     return(
         <div className='clock container'>
             <div className='row clock-container'>
-                <div className='col-lg-3 clock-icon'>
+                <div className='col-lg-2 clock-icon'>
                     <i>
                     <FiClock style={{marginBottom: '34px'}} />
                     </i>
                 </div>
-                <div className='col-lg-5 clock row'>
+                <div className='col-lg-6 clock row'>
                     <div className='time-field'><p className='countdown'>{minute}:{second}</p></div>
                 </div>
             </div>
