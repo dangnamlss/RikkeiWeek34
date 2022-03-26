@@ -1,20 +1,20 @@
 import './Question.css'
 
 export default function Question (props) {
-    var questionString= JSON.stringify(props.questionContent) 
-    
+    var questionString= props.questionContent
+
     var answer = questionString.split('|')
-    JSON.parse(answer)
+
     const {answerGridBtn, setAnswerGridBtn} = props
     const {listAnswer, setListAnswer} = props
     const {completedQuiz, setCompletedQuiz} = props
 
     function handleChange(e) {
-        
+        console.log(answer[0])
         var target = e.target
         console.log(props.listAnswer)
         const answerId = props.listAnswer.findIndex(arr => {return arr.id == target.name})
-
+        
         if(answerId < 0) {
             setCompletedQuiz(completedQuiz + 1)
             setListAnswer([
@@ -41,7 +41,7 @@ export default function Question (props) {
     }
 
     return (
-        <div className="container question-wrapper">
+        <div className="container question-wrapper" id={props.id}>
             <div className='question'>
                 <p>{props.id}. {props.questionTitle}</p>
             </div>

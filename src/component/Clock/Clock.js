@@ -5,7 +5,7 @@ import { FiClock } from "react-icons/fi"
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Clock() {
+export default function Clock(props) {
     var startMinute = parseInt(localStorage.getItem('time')) 
     //CLOCK
     const navigate = useNavigate()
@@ -22,7 +22,7 @@ export default function Clock() {
             if(minute === 0 && second === 0) {
                 setMinute(0)
                 setSecond(0)
-                navigate('/result')
+                props.finalSub()
             }
         }, 1000)
         return () => clearInterval(timer)
@@ -31,7 +31,7 @@ export default function Clock() {
     return(
         <div className='clock container'>
             <div className='row clock-container'>
-                <div className='col-lg-2 clock-icon'>
+                <div className='col-lg-3 clock-icon'>
                     <i>
                     <FiClock style={{marginBottom: '34px'}} />
                     </i>

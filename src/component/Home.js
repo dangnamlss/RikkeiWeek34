@@ -5,6 +5,7 @@ export default function Home() {
     function signOut(e){
         navigate('/')
         localStorage.removeItem('password')
+        localStorage.removeItem('token')
     }
     function startTest(e){
         navigate('/quiz')

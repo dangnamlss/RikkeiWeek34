@@ -21,8 +21,8 @@ export default function Quiz() {
     const [numberOfQuiz, setNumberOfQuiz] = useState(0)
     const [answerGrid, setAnswerGrid] = useState([])
     const [isOpen, setIsOpen] = useState(false)
-    const [finalScore, setFinalScore] = useState(0)
-
+    const [finalScore, setFinalScore] = useState()
+    const [totalScore, setTotalScore] = useState()
     //BACK HOME
     const navigate = useNavigate()
     function backHome(e){
@@ -55,6 +55,7 @@ export default function Quiz() {
             localStorage.setItem('time', res.data.totalTime)
 
             quizListLength = res.data.data.length
+            setTotalScore(res.data.totalPoint)
             setNumberOfQuiz(quizListLength)
             var arr = []
             for(var i = 0; i < quizListLength; i++) {
@@ -85,6 +86,8 @@ export default function Quiz() {
 
     //Submit
     function finalSubmit() {
+        setScreenLoading(true)
+        setIsOpen(false)
         axios.post(finishGameAPI,
             {
                 examId: 24,
@@ -99,26 +102,39 @@ export default function Quiz() {
           }
         )
           .then(res => {
-            console.log(listAnswer)
-            console.log(res.data)
-            setFinalScore(res.data.score)
-            localStorage.setItem('score', finalScore)
-            console.log(finalScore)
-            navigate('/result')
+
+            localStorage.setItem('score', res.data.scores)
+
+            localStorage.setItem('total', totalScore)
+            
           })
+          .then(() => {
+            setScreenLoading(false)
+            navigate('/result')
+            }
+          )
           .catch(error => {
               console.log("Error")
           })
     }
+
+    function scrollToQues(id) {
+        const target = document.getElementById(id).getBoundingClientRect().top - 40
+        console.log(id)
+        window.scrollTo({top: target, behavior:'smooth'})
+    }
+
     return(
         <div>
             <div style={{display: screenLoading? 'block':'none'}}>
                 <Loading />
             </div>
 
+
             <div style={{display: isOpen? 'block':'none'}}>
                 <SubPopUp closePopup={closePopup} finalSubmit={finalSubmit} />
             </div>
+
             <div style={{background: screenLoading? 'white' : 'black', height: '100%', display: screenLoading? 'none':'block'}}>
                 <div className='nav-bar' >
                     <div className='nav-bar-items'>
@@ -133,7 +149,7 @@ export default function Quiz() {
                     <div className='row wrapper'>
                         <div className = 'col-lg-3 form-controler'>
                             <div style={{display: screenLoading? 'none':'block'}}>
-                                <Clock />
+                                <Clock finalSub = {finalSubmit} />
                             </div>
                             {/* END OF CLOCK */}
 
@@ -144,14 +160,8 @@ export default function Quiz() {
                             
                             <div className='quiz-grid container'>
                                 {answerGrid.map(function(item) {
-                                    var linkId = '#ques-'
-                                    if(item.id == 1) {
-                                        linkId = '#ques-1'
-                                    } else {
-                                        linkId += item.id
-                                    }
-                                    return <div className='quiz-item' id={item.id} key={item.id} style={item.isAnswer ? {background: 'black'} : {background: 'white'}}>
-                                            <a href={linkId}  style={item.isAnswer ? {color:'white'} : {color: 'black'}}>
+                                    return <div className='quiz-item' key={item.id} style={item.isAnswer ? {background: 'black'} : {background: 'white'}}>
+                                            <a onClick={() => scrollToQues(item.id)} style={item.isAnswer ? {color:'white'} : {color: 'black'}}>
                                                 {item.id}
                                             </a>
                                             </div>
@@ -185,8 +195,7 @@ export default function Quiz() {
                                     
                                     defaultClass += questionId
                                     
-                                    return <div id={defaultClass}>
-                                        <Question
+                                    return <Question
                                                     id={question.id}
                                                     questionName = {question.questionName}
                                                     questionType = {question.questionType}
@@ -201,7 +210,7 @@ export default function Quiz() {
                                                     setCompletedQuiz = {setCompletedQuiz}
                                                     
                                                 /> 
-                                    </div>
+                                    
                                      }) 
                                 }
                             </div>

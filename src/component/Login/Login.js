@@ -66,6 +66,7 @@ export default function Login() {
             .then(response => {
                 if(response.status == 200){
                     console.log(response.data)
+                    localStorage.setItem('token', response.data.data.token)
                     //Remember me
                     var checkbox_status = data.get('rememberMe')
                     if (checkbox_status != null) {

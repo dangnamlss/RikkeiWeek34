@@ -5,15 +5,14 @@
   position: static;
 }
 .wrapper {
-
     display: flex;
     background: white;
     height: 100%;
 }
 .form-controler {
-    position: fixed;
+    /* position: fixed; */
     padding: 0px;
-    height: 100vh;
+    /* height: 100vh; */
     border-right-style: solid;
     background: white;
     display: block;
@@ -196,8 +195,5 @@
     outline: none;
   }
   
-.quiz-field {
-    margin-left: 28%;
-}
 
 
