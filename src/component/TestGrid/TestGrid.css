@@ -1,0 +1,64 @@
+
+.page-item a {
+    color: black;
+}
+.page-item:hover a{
+    color: black !important;
+}
+.lession-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: solid 2px #6e7491;
+    border-top-left-radius: 37px 140px;
+    border-top-right-radius: 23px 130px;
+    border-bottom-left-radius: 110px 19px;
+    border-bottom-right-radius: 120px 24px;
+    transform: rotate(-1deg);
+    box-shadow: 3px 15px 8px -10px rgba(0, 0, 0, 0.3);
+    transition: all 0.13s ease-in;
+}
+
+.lession-card:hover {
+    transform: translateY(-10px) rotate(1deg);
+    box-shadow: 3px 15px 8px -10px rgba(0, 0, 0, 0.3);
+}
+.search-btn {
+    background: white;
+    border: solid 2px #6e7491;
+}
+.search-field input {
+    width: 320px;
+    border: solid 2px #6e7491;
+}
+
+.card-text {
+    margin-left: 18px;
+}
+
+.start-btn {
+    position: absolute;
+    color: white;
+    font-style: italic;
+    margin-left: 78%;
+    bottom: 6px;
+    background-color: #03ecfc;
+    border-radius: 4px;
+    padding: 2px 8px 2px 8px;
+    cursor: pointer;
+}
+
+.point-wrapper {
+    position: absolute;
+    text-align: center;
+    line-height: 0.6cm;
+    height: 0.6cm;
+    font-size: 12px;
+    font-style: italic;
+    width: 0.7cm;
+    margin-left: 91.5%;
+    bottom: 62px;
+    color: white;
+    background: red; 
+    border-top-right-radius: 23px 72px;
+}

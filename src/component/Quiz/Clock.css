@@ -1,0 +1,30 @@
+/* CLOCK */
+.clock-container {
+    margin-top: 30% !important;
+    margin-left: 30% !important;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.clock-icon{
+    padding: 0 !important;
+}
+.clock-icon i {
+    font-size: 30px;
+}
+
+.countdown {
+    margin: 0;
+    color: black;
+}
+
+.clock {
+    margin-left: 4px;
+}
+.clock p {
+    font-size: 20px;
+}
+
+.time-field {
+    padding: 0 !important;
+}

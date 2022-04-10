@@ -1,0 +1,25 @@
+.category {
+    padding: 0px 10px 0px 60px;
+    text-align: center;
+}
+.category-menu {
+    text-align: left;
+    border-bottom: solid 1px #6e7491;
+}
+.category-item {
+    border-top: solid 1px #6e7491;
+    line-height: 50px;
+    cursor: pointer;
+}
+.category-item:hover {
+    background-color: grey;
+}
+.category-item:hover p{
+    font-weight: bold;
+}
+.category-menu p{
+    color: black;
+    font-style: normal;
+    margin: 0;
+    padding-left: 4px;
+}

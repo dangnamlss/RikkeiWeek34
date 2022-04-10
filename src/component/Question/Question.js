@@ -1,46 +1,48 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable react/prop-types */
 import './Question.css'
 
 export default function Question (props) {
-    var questionString= props.questionContent
+  const questionString = props.questionContent
 
-    var answer = questionString.split('|')
+  const answer = questionString.split('|')
 
-    const {answerGridBtn, setAnswerGridBtn} = props
-    const {listAnswer, setListAnswer} = props
-    const {completedQuiz, setCompletedQuiz} = props
+  const { answerGridBtn, setAnswerGridBtn } = props
+  const { listAnswer, setListAnswer } = props
+  const { completedQuiz, setCompletedQuiz } = props
 
-    function handleChange(e) {
-        console.log(answer[0])
-        var target = e.target
-        console.log(props.listAnswer)
-        const answerId = props.listAnswer.findIndex(arr => {return arr.id == target.name})
-        
-        if(answerId < 0) {
-            setCompletedQuiz(completedQuiz + 1)
-            setListAnswer([
-                ...listAnswer,
-                {id: parseInt(target.name), questionAnswer: target.value}
-            ])
+  function handleChange (e) {
+    console.log(answer[0])
+    const target = e.target
+    console.log(props.listAnswer)
+    const answerId = props.listAnswer.findIndex(arr => { return arr.id === target.name })
 
-            const newAnswerList = [...answerGridBtn]
-            newAnswerList[target.name - 1] = {
-                id: target.name,
-                isAnswer: true
-            }
-            setAnswerGridBtn(newAnswerList)
-        } else {
-            const newListAnswer = [...listAnswer]
-            newListAnswer[answerId] = {
-                id: parseInt(target.name),
-                questionAnswer: target.value
-            }
-            setListAnswer(newListAnswer)
-        }
-        console.log(listAnswer)
-        console.log(answerGridBtn)
+    if (answerId < 0) {
+      setCompletedQuiz(completedQuiz + 1)
+      setListAnswer([
+        ...listAnswer,
+        { id: parseInt(target.name), questionAnswer: target.value }
+      ])
+
+      const newAnswerList = [...answerGridBtn]
+      newAnswerList[target.name - 1] = {
+        id: target.name,
+        isAnswer: true
+      }
+      setAnswerGridBtn(newAnswerList)
+    } else {
+      const newListAnswer = [...listAnswer]
+      newListAnswer[answerId] = {
+        id: parseInt(target.name),
+        questionAnswer: target.value
+      }
+      setListAnswer(newListAnswer)
     }
+    console.log(listAnswer)
+    console.log(answerGridBtn)
+  }
 
-    return (
+  return (
         <div className="container question-wrapper" id={props.id}>
             <div className='question'>
                 <p>{props.id}. {props.questionTitle}</p>
@@ -76,5 +78,5 @@ export default function Question (props) {
                 </div>
             </div>
         </div>
-    )
+  )
 }

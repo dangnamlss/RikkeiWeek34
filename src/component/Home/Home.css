@@ -1,0 +1,32 @@
+.home-nav {
+    height: 40px !important;
+}
+#user-info {
+    display: flex;
+}
+.user-icon {
+    margin-top: 7px;
+    margin-right: 10px;
+}
+#user-info p{
+    margin-top: 8px;
+    color: black;
+}
+.category-wrapper {
+    padding: 0 !important;
+}
+.seperator {
+    border-right: 1px solid rgb(226 232 240); 
+}
+.lession-card-body {
+    cursor: pointer;
+}
+
+.active {
+    background: grey;
+    font-weight: bold;
+}
+
+.inactive {
+    background: white;
+}

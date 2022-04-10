@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { faFaceFrown } from '@fortawesome/free-regular-svg-icons'
 import { faFaceSmile } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -5,36 +6,37 @@ import { useNavigate } from 'react-router-dom'
 import './Result.css'
 
 export default function Result () {
-    var commentText = ''
-    var finalScore = localStorage.getItem('score')
-    var totalScore = localStorage.getItem('total')
-    var isLow = false
-    const navigate = useNavigate()
-    function backHome(e){
-        navigate('/home')
-    }
+  let commentText = ''
+  const finalScore = localStorage.getItem('score')
+  const totalScore = localStorage.getItem('total')
+  let isLow = false
+  const navigate = useNavigate()
+  function backHome (e) {
+    localStorage.removeItem('score')
+    localStorage.removeItem('total')
+    navigate('/home')
+  }
 
-    if(finalScore >= 70) {
-        isLow = false
-        commentText = 'Congratulation!'
-    }
-    else {
-        isLow = true
-        commentText = 'The score is quite low. You need to try better'
-    }
+  if (finalScore >= totalScore * 0.6) {
+    isLow = false
+    commentText = 'Congratulation!'
+  } else {
+    isLow = true
+    commentText = 'The score is quite low. You need to try better'
+  }
 
-    return(
-    <div style={{background: 'black', height:'100vh'}}>
+  return (
+    <div style={{ background: 'black', height: '100vh' }}>
         <div className='container result-wrapper'>
             <div className='result-nav-bar'>
                 <div className='result-nav-bar-items'>
                     <button onClick={backHome} className='back-btn'><p>Back</p></button>
                 </div>
             </div>
-            
+
             <div className='result-mes'>
                 <div className='result-icon' >
-                    <i style={{color: 'red', fontSize:'80px'}}>
+                    <i style={{ color: 'red', fontSize: '80px' }}>
                         <FontAwesomeIcon icon={isLow ? faFaceFrown : faFaceSmile} />
                     </i>
                 </div>
@@ -45,5 +47,5 @@ export default function Result () {
             </div>
         </div>
     </div>
-    )
+  )
 }

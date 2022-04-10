@@ -1,0 +1,25 @@
+.history-wrapper {
+    position: relative;
+    text-align: center;
+    align-items: center;
+}
+
+.history-list {
+    height: calc(100vh - 150px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-top: 14px;
+}
+
+.history-list::-webkit-scrollbar {
+    display: none;
+}
+.h-card-text {
+    margin-left: 4px;
+    margin-bottom: 6px;
+}
+.h-card-text p{
+    color: black;
+    font-weight: bold;
+    margin: 0;
+}
