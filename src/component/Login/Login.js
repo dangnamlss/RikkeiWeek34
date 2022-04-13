@@ -80,7 +80,6 @@ export default function Login () {
             }
             setScreenLoading(false)
             navigate('/home')
-            alert('Sign in successfully')
           } else {
             alert('Sign in failed! Check your username and password!')
             setScreenLoading(false)

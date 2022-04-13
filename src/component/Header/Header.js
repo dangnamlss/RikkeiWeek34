@@ -1,29 +1,53 @@
-import React from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import Register from '../Register/Register'
 import Login from '../Login/Login'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.css'
-import Home from '../Home/Home'
 
 export default function Header () {
-  // console.log(localStorage.getItem("password")&&localStorage.getItem("username"))
-  return (
-        <ul className='tab-group'>
-            <Link to='/'>
-                <li className="tab active"><a href="#signup">Log in</a></li>
-            </Link>
-            <Link to='/register'>
-                <li className="tab"><a href="#Rlogin">Sign up</a></li>
-            </Link>
-            <div>
-                <Routes>
-                    <Route path='/' element={<Login />} />
-                    <Route path='/register' element={<Register/>} />
-                    <Route path="/home" element = {<Home />} />
-                </Routes>
-            </div>
+  const navigate = useNavigate()
+  const [isLogin, setIsLogin] = useState(false)
+  
 
-        </ul>
+  function handleOnClickLogin() {
+       navigate('/')
+  }
+
+  function handleOnClickSignup() {
+      navigate('/register')
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if(token) {
+        setIsLogin(true)
+        navigate('/home')
+    } else {
+        setIsLogin(false)
+        navigate('/')
+    }
+  }, [])
+  return (
+      <div className='container'>
+          {isLogin ? null : (
+            <ul className='tab-group'>
+                
+                <div onClick={handleOnClickLogin}>
+                    <li className="tab active"><a>Log in</a></li>
+                </div>
+                <div onClick={handleOnClickSignup}>
+                    <li className="tab"><a>Sign up</a></li>
+                </div>
+                <div>
+                    <Routes>
+                        <Route path='/' element={<Login />} />
+                        <Route path='/register' element={<Register/>} />
+                    </Routes>
+                </div>
+
+            </ul>
+          )}
+      </div>
   )
 }

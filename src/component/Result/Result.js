@@ -2,6 +2,7 @@
 import { faFaceFrown } from '@fortawesome/free-regular-svg-icons'
 import { faFaceSmile } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Result.css'
 
@@ -17,6 +18,15 @@ export default function Result () {
     navigate('/home')
   }
 
+  useEffect(()=> {
+    const token = localStorage.getItem('token')
+    if(!token) {
+      navigate('/')
+    }
+    if(!finalScore && !totalScore) {
+      navigate('/home')
+    }
+  })
   if (finalScore >= totalScore * 0.6) {
     isLow = false
     commentText = 'Congratulation!'

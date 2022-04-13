@@ -42,51 +42,58 @@ export default function Home () {
   }
 
   useEffect(() => {
-    setScreenLoading(true)
+    if(!userToken) {
+      navigate('/')
+    } else {
+      setScreenLoading(true)
+  
+      axios.get('https://english-backend-v2.herokuapp.com/categories')
+      .then(function (res) {
+        setCateList(res.data.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  
+      axios.get('https://english-backend-v2.herokuapp.com/exams/getListExamByCategory/1', {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+      .then(res => {
+        setLessions(res.data.data)
+        setPageCount(Math.ceil(res.data.data.length / itemPerPage))
+        const newList = res.data.data.slice(0, itemPerPage)
+        setLessionItems(newList)
+        setScreenLoading(false)
+      })
+  
+      axios.get(`https://english-backend-v2.herokuapp.com/results/getByUser/${localStorage.getItem('userId')}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
+        }
+      })
+      .then(res => {
+        setHistoryData(res.data.data)
+        console.log(res.data.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
-    axios.get('https://english-backend-v2.herokuapp.com/categories')
-    .then(function (res) {
-      setCateList(res.data.data)
-    })
-    .catch(function (error) {
-      console.log(error)
-    })
-
-    axios.get('https://english-backend-v2.herokuapp.com/exams/getListExamByCategory/1', {
-      headers: {
-        Authorization: `Bearer ${userToken}`
-      }
-    })
-    .then(res => {
-      setLessions(res.data.data)
-      setPageCount(Math.ceil(res.data.data.length / itemPerPage))
-      const newList = res.data.data.slice(0, itemPerPage)
-      setLessionItems(newList)
-      setScreenLoading(false)
-    })
-
-    axios.get(`https://english-backend-v2.herokuapp.com/results/getByUser/${localStorage.getItem('userId')}`, {
-      headers: {
-        Authorization: `Bearer ${userToken}`
-      }
-    })
-    .then(res => {
-      setHistoryData(res.data.data)
-      console.log(res.data.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+    }
 
   }, [])
 
   function handleClickCategory (cateId, idx) {
+    setScreenLoading(true)
     setActive(idx)
     const getLession = 'https://english-backend-v2.herokuapp.com/exams/getListExamByCategory/' + cateId
     
     axios.get(getLession, {
       headers: {
         Authorization: `Bearer ${userToken}`
+
       }
     })
     .then(res => {
@@ -95,6 +102,7 @@ export default function Home () {
       const newList = res.data.data.slice(0, itemPerPage)
       
       setLessionItems(newList)
+      setScreenLoading(false)
     })
     .catch(function (error) {
       console.log(error)
@@ -168,9 +176,13 @@ export default function Home () {
                       <br />
                       <br />
                       <div className='lession-field row'>
-                          {
+                        <div style={{ display : screenLoading ? 'block' : 'none'}}>
+                          <Loading/>
+                        </div>
+                          
+                            {lessionItems.length > 0 ? (
                               lessionItems.map((lessionItem) => {
-                                
+
                                   return <div key={lessionItem.id} className='col-lg-6' style={{ marginBottom: '30px'}}>
                                       <div className='lession-card'>
                                           <div className='lession-card-body' onClick={() => {startTest(lessionItem.id)}}>
@@ -190,7 +202,11 @@ export default function Home () {
                                       </div>
                                   </div>
                               })
-                          }
+
+                            ) : (
+                              <div>No lession</div>
+                            )}
+                          
                       </div>
 
                       <div>

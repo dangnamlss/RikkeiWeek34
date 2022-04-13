@@ -51,32 +51,40 @@ export default function Quiz () {
 
   // GET GAME
   useEffect(() => {
-    setScreenLoading(true)
-    axios.post(getGameAPI, getGame, {
-      headers: {
-        Authorization: `Bearer ${userToken}`
-      }
+    const token = localStorage.getItem('token')
+    if(!token) {
+      navigate('/')
+    } else if(!params) {
+      navigate('/home')
     }
-    )
-      .then(res => {
-        setTotalScore(res.data.totalPoint)
-        setNumberOfQuiz(res.data.data.length)
-        const arr = []
-        for (let i = 0; i < res.data.data.length; i++) {
-          arr.push({ id: res.data.data[i].id, isAnswer: false })
+    else {
+      setScreenLoading(true)
+      axios.post(getGameAPI, getGame, {
+        headers: {
+          Authorization: `Bearer ${userToken}`
         }
-        setAnswerGrid(arr)
-
-        setListQuestion(res.data.data)
-
-        setScreenLoading(false)
-
-        setGivenTime(res.data.totalTime)
-        setMinute(res.data.totalTime)
-      })
-      .catch(() => {
-        console.log('Error')
-      })
+      }
+      )
+        .then(res => {
+          setTotalScore(res.data.totalPoint)
+          setNumberOfQuiz(res.data.data.length)
+          const arr = []
+          for (let i = 0; i < res.data.data.length; i++) {
+            arr.push({ id: res.data.data[i].id, isAnswer: false })
+          }
+          setAnswerGrid(arr)
+  
+          setListQuestion(res.data.data)
+  
+          setScreenLoading(false)
+  
+          setGivenTime(res.data.totalTime)
+          setMinute(res.data.totalTime)
+        })
+        .catch(() => {
+          console.log('Error')
+        })
+    }
   }, [])
 
   //TIMER
